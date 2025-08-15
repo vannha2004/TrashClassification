@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Robot Phân loại Rác</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Smart Trash Detection System</h1>
+        <nav class="nav">
+            <a href="#" class="active">Live Detection</a>
+            <a href="{{ url_for('upload') }}">Image Detection</a>
+        </nav>
+    </div>
+    <button class="camera-toggle" onclick="toggleCamera()">
+        <i class="fa fa-eye-slash" id="eye_ic" aria-hidden="true"></i>
+        <span id="camera_text">Turn Off Camera</span>
+    </button>
+    <div class="main-container">
+        <div class="video-panel">
+            <h3 class="video-header">Camera</h3>
+            <img id="cameraFeed" src="/video_feed" alt="Camera Feed" width="640" height="480">
+        </div>
+        <div class="right-section">
+            <div class="trash-container">
+                <h3 class="trash-header">Thùng rác phân loại</h3>
+                <div class="trash-bin plastic">
+                    <p>Nhựa</p>
+                </div>
+                <div class="trash-bin paper">
+                    <p>Kính</p>
+                </div>
+                <div class="trash-bin metal">
+                    <p>Kim loại</p>
+                </div>
+                <div class="trash-bin organic">
+                    <p>Hữu cơ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="robot-panel">
+            <canvas id="robotCanvas"></canvas>
+        </div>
+    </div>
+    <style>
+        #cameraFeed.off {
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+    </style>
+    <script>
+        let cameraOn = true;
+        function toggleCamera() {
+            const cameraFeed = document.getElementById('cameraFeed');
+            const toggleButton = document.querySelector('.camera-toggle');
+
+            if (cameraOn) {
+                cameraFeed.src = '';
+                cameraFeed.classList.add('off');
+                toggleButton.textContent = 'Turn On Camera';
+            } else {
+                cameraFeed.src = '/video_feed';
+                cameraFeed.classList.remove('off');
+                toggleButton.textContent = 'Turn Off Camera';
+            }
+            cameraOn = !cameraOn;
+        }
+    </script>
+
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

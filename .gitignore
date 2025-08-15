@@ -1,0 +1,14 @@
+# Bỏ môi trường ảo Python
+venv/
+.env/
+gdcs-env
+
+# Bỏ các file tạm
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Bỏ dữ liệu YOLO model tạm
+runs/

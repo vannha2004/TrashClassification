@@ -1,0 +1,32 @@
+{
+  "can": {
+    "group": "Kim loại",
+    "decomposition_time": "80-200 năm",
+    "handling": "Thu gom, tái chế kim loại"
+  },
+  "cigarette": {
+    "group": "Chất thải nguy hại",
+    "decomposition_time": "1-5 năm",
+    "handling": "Không vứt bừa bãi, thu gom, xử lý chất thải nguy hại"
+  },
+  "glass": {
+    "group": "Thủy tinh",
+    "decomposition_time": "1 triệu năm",
+    "handling": "Thu gom, tái chế thủy tinh"
+  },
+  "paper waste": {
+    "group": "Giấy",
+    "decomposition_time": "2-5 tháng",
+    "handling": "Thu gom, tái chế giấy, ủ compost nếu không tráng nhựa"
+  },
+  "plastic bag": {
+    "group": "Nhựa",
+    "decomposition_time": "10-20 năm",
+    "handling": "Thu gom, tái chế nhựa, hạn chế sử dụng"
+  },
+  "plastic bottle": {
+    "group": "Nhựa",
+    "decomposition_time": "450 năm",
+    "handling": "Thu gom, tái chế nhựa PET"
+  }
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Trash Detection System</h1>
+            <p class="description">Upload an image and select a model to detect trash objects</p>
+        </header>
+
+        <div class="upload-container">
+            <h2 style="text-align: center; margin-bottom: 25px;">Select Detection Model</h2>
+
+            <div class="model-selector">
+                <div class="model-option" data-model="yolov12">
+                    <div class="model-icon">🚀</div>
+                    <div class="model-name">YOLOv12</div>
+                    <div class="model-desc">Fast & accurate real-time detection</div>
+                </div>
+
+                <div class="model-option" data-model="detr">
+                    <div class="model-icon">🧠</div>
+                    <div class="model-name">DETR</div>
+                    <div class="model-desc">Transformer-based detection</div>
+                </div>
+
+                <div class="model-option" data-model="fasterrcnn">
+                    <div class="model-icon">🔍</div>
+                    <div class="model-name">Faster R-CNN</div>
+                    <div class="model-desc">High precision detection</div>
+                </div>
+            </div>
+
+            <div class="upload-area" id="upload-area">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">
+                    <p>Drag & drop your image here</p>
+                    <p>or</p>
+                </div>
+                <button class="upload-btn" id="upload-button">Choose Image</button>
+                <div class="file-name" id="file-name">No file selected</div>
+            </div>
+
+            <input type="file" id="file-input" accept="image/*">
+            <input type="hidden" id="selected-model" name="model" value="yolov12">
+
+            <button class="detect-btn" id="detect-button" disabled>Detect Objects</button>
+
+            <a href="/" class="back-link">Back to Live Detection</a>
+        </div>
+
+        <footer>
+            <p style="color: white; font-weight: bold;">Trash Detection System &copy; GROUP 03 15/08/2025</p>
+        </footer>
+    </div>
+
+    <script>
+        const modelOptions = document.querySelectorAll('.model-option');
+        const selectedModelInput = document.getElementById('selected-model');
+
+        modelOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                modelOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+
+                const model = option.getAttribute('data-model');
+                selectedModelInput.value = model;
+            });
+        });
+
+        modelOptions[0].classList.add('selected');
+
+        const fileInput = document.getElementById('file-input');
+        const uploadButton = document.getElementById('upload-button');
+        const uploadArea = document.getElementById('upload-area');
+        const fileName = document.getElementById('file-name');
+        const detectButton = document.getElementById('detect-button');
+
+        uploadButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4a69bd'; /* Changed to blue */
+            uploadArea.style.backgroundColor = '#eaf0f6'; /* Changed to light blue */
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#aeb6bf'; /* Changed to medium gray */
+            uploadArea.style.backgroundColor = '#f8f9fa'; /* Changed to very light gray */
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#aeb6bf'; /* Changed to medium gray */
+            uploadArea.style.backgroundColor = '#f8f9fa'; /* Changed to very light gray */
+
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (file && file.type.match('image.*')) {
+                fileName.textContent = file.name;
+                detectButton.disabled = false;
+            } else {
+                fileName.textContent = 'Please select a valid image file';
+                detectButton.disabled = true;
+            }
+        }
+
+        detectButton.addEventListener('click', () => {
+            if (!fileInput.files.length) {
+                alert('Please select an image first');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('model', selectedModelInput.value);
+
+            // Show loading state
+            detectButton.disabled = true;
+            detectButton.textContent = 'Detecting...';
+
+            fetch('/detect', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Detection failed');
+                    return response.text();
+                })
+                .then(html => {
+                    document.open();
+                    document.write(html);
+                    document.close();
+                })
+                .catch(error => {
+                    alert(error.message);
+                    detectButton.disabled = false;
+                    detectButton.textContent = 'Detect Objects';
+                });
+        });
+    </script>
+</body>
+
+</html>

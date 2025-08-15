@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0e5ec; /* Changed to light gray */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff; /* Changed to white */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #4a69bd 0%, #88a0b7 100%); /* Blue-gray gradient */
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .model-info {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .results-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .image-container {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-container h2 {
+            margin-top: 0;
+            color: #4a69bd; /* Changed to blue */
+            border-bottom: 2px solid #f0f4ff;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .image-wrapper {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .result-image {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .detections-container {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .detections-container h2 {
+            margin-top: 0;
+            color: #28a745; /* Changed to green-blue */
+            border-bottom: 2px solid #f0f4ff;
+            padding-bottom: 10px;
+            transform: translateX(44%);
+        }
+        #cfd{
+            margin-top: 0;
+            color: #28a745; /* Changed to green-blue */
+            border-bottom: 2px solid #f0f4ff;
+            padding-bottom: 10px;
+            transform: translateX(64%);
+        }
+
+        .detection-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px;
+            background: #eaf0f6; /* Changed to light blue */
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4a69bd; /* Changed to blue */
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .detection-list {
+            max-height: 400px;
+            line-height: 1.5;
+            overflow-y: auto;
+        }
+
+        .detection-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .detection-item:last-child {
+            border-bottom: none;
+        }
+
+        .detection-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .detection-info {
+            flex: 1;
+        }
+
+        .detection-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .detection-confidence {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .detection-bbox {
+            color: #666;
+            font-size: 0.9rem;
+            font-family: monospace;
+        }
+
+        .actions {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .btn-detect {
+            background: linear-gradient(135deg, #4a69bd 0%, #6a82b7 100%); /* Blue-gray gradient */
+            color: white;
+            border: none;
+        }
+
+        .btn-detect:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(74, 105, 189, 0.3);
+        }
+
+        .btn-back {
+            background: white;
+            color: #4a69bd; /* Changed to blue */
+            border: 2px solid #4a69bd; /* Changed to blue */
+        }
+
+        .btn-back:hover {
+            background: #f0f4ff;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(74, 105, 189, 0.1);
+        }
+        #confidenceChart{
+            transform:translateX(50%)
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        body { font-family: Arial, sans-serif; background: #e0e5ec; margin: 0; padding: 20px; } /* Changed to light gray */
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #333; }
+        .image-section { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .image-section img { max-width: 45%; border-radius: 8px; }
+        .detections { margin-top: 20px; }
+        .detection { background: #eaf0f6; padding: 10px; margin-bottom: 10px; border-radius: 5px; } /* Changed to light blue-gray */
+        .chart-container { margin-top: 20px; max-width: 500px; }
+        .link { margin-top: 20px; display: inline-block; color: #007bff; text-decoration: none; }
+        .link:hover { text-decoration: underline; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Detection Results</h1>
+            <p class="model-info">Using model: <strong>{{ model_name }}</strong></p>
+        </header>
+
+        <div class="results-container">
+            <div class="image-container">
+                <h2>Original Image</h2>
+                <div class="image-wrapper">
+                    <img src="{{ original_image }}" alt="Original Image" class="result-image">
+                </div>
+            </div>
+
+            <div class="image-container">
+                <h2>Detection Results</h2>
+                <div class="image-wrapper">
+                    <img src="{{ annotated_image }}" alt="Detection Results" class="result-image">
+                </div>
+            </div>
+
+            <div class="detections-container">
+                <h2>Detected Objects</h2>
+
+                <div class="detection-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">{{ detections|length }}</div>
+                        <div class="stat-label">Objects Found</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">
+                            {% if detections %}
+                            {{ (detections|map(attribute='confidence')|max * 100)|round(1) }}%
+                            {% else %}
+                            0%
+                            {% endif %}
+                        </div>
+                        <div class="stat-label">Max Confidence</div>
+                    </div>
+                </div>
+
+                <div class="detection-list">
+                    {% if detections %}
+                    {% for detection in detections %}
+                    <div class="detection-item">
+                        <!-- <div class="detection-color" style="background: {{ detection.color }}"></div> -->
+                        <div class="detection-info">
+                            <div class="detection-label">{{ detection.label|capitalize }}</div>
+                            <div class="detection-confidence">Confidence: {{ (detection.confidence * 100)|round(1) }}%
+                            </div>
+                            <div class="detection-bbox">BBox: [{{ detection.bbox[0] }}, {{ detection.bbox[1] }}, {{
+                                detection.bbox[2] }}, {{ detection.bbox[3] }}]</div>
+
+                            {% if detection.info %}
+                            <div class="detection-details" style="margin-top:8px; font-size:0.9rem;">
+                                <div><strong>Nhóm:</strong> {{ detection.info.group }}</div>
+                                <div><strong>Thời gian phân huỷ:</strong> {{ detection.info.decomposition_time }}</div>
+                                <div><strong>Cách xử lý:</strong> {{ detection.info.handling }}</div>
+                                {% if detection.info.notes %}<div><strong>Ghi chú:</strong> {{ detection.info.notes }}
+                                </div>{% endif %}
+                            </div>
+                            {% else %}
+                            <div style="margin-top:8px; color:#999;">Không có thông tin bổ sung cho loại rác này.</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                    {% else %}
+                    <div class="detection-item">
+                        <div class="detection-info">
+                            <div class="detection-label">No objects detected</div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="chart-container">
+                    <h2 id = cfd>Confidence of Detected Objects</h2>
+                    <canvas id="confidenceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="/upload" class="btn btn-detect">Detect Another Image</a>
+            <a href="/" class="btn btn-back">Back to Live Detection</a>
+        </div>
+
+        <footer>
+            <p>Trash Detection System &copy; 2023</p>
+        </footer>
+    </div>
+    <script>
+        (function () {
+            // Use IIFE to create a new scope and avoid variable conflicts
+            const detectionData = {{ detections | tojson | safe
+        }};
+        const ctx = document.getElementById('confidenceChart').getContext('2d');
+        const labels = detectionData.length ? detectionData.map(d => d.label) : ['No detections'];
+        const data = detectionData.length ? detectionData.map(d => (d.confidence * 100).toFixed(1)) : [0];
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Confidence (%)',
+                    data: data,
+                    backgroundColor: 'rgba(40, 167, 69, 0.5)', /* Changed to green-blue */
+                    borderColor: 'rgba(40, 167, 69, 1)', /* Changed to green-blue */
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Confidence (%)' }
+                    }
+                },
+                plugins: { legend: { display: true } }
+            }
+        });
+        }) ();
+    </script>
+</body>
+
+</html>

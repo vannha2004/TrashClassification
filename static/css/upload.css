@@ -1,0 +1,202 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(rgba(81, 71, 87, 0.5), rgba(88, 81, 104, 0.5)),
+              url("../back3.jpg") no-repeat center center;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-size: cover;
+  
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(
+    135deg,
+    #4a69bd 0%,
+    #88a0b7 100%
+  ); /* Blue-gray gradient */
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.description {
+  font-size: 1.1rem;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+.upload-container {
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.model-selector {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.model-option {
+  background: white;
+  border: 2px solid #cdd4e0; /* Light blue-gray */
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.model-option:hover {
+  transform: translateY(-5px);
+  border-color: #4a69bd; /* Vibrant blue */
+  box-shadow: 0 5px 15px rgba(74, 105, 189, 0.1); /* Blue tint */
+}
+
+.model-option.selected {
+  border-color: #4a69bd; /* Vibrant blue */
+  background-color: #eaf0f6; /* Very light blue */
+}
+
+.model-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #4a69bd; /* Vibrant blue */
+}
+
+.model-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.model-desc {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.upload-area {
+  border: 2px dashed #aeb6bf; /* Medium gray */
+  border-radius: 10px;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #f8f9fa; /* Very light gray */
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.upload-area:hover {
+  border-color: #4a69bd; /* Vibrant blue */
+  background-color: #eaf0f6; /* Light blue */
+}
+
+.upload-icon {
+  font-size: 3rem;
+  color: #4a69bd; /* Vibrant blue */
+  margin-bottom: 15px;
+}
+
+.upload-text {
+  margin-bottom: 20px;
+}
+
+.upload-btn {
+  background: linear-gradient(
+    135deg,
+    #4a69bd 0%,
+    #6a82b7 100%
+  ); /* Blue-gray gradient */
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.upload-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(74, 105, 189, 0.3);
+}
+
+.file-name {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.detect-btn {
+  width: 100%;
+  background: linear-gradient(
+    135deg,
+    #28a745 0%,
+    #17a2b8 100%
+  ); /* Green-blue gradient */
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.detect-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(40, 167, 69, 0.3);
+}
+
+.detect-btn:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #4a69bd; /* Vibrant blue */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Hidden file input */
+#file-input {
+  display: none;
+}
